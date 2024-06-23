@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- <h1>Edit Profile</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ profile.bio }}
+      <br/><br/>
+    <button type="submit">Save Changes</button>
+  </form> -->
+{% if profile %}
+{%if user.profile_image%}
+<img src="{{user.profile_image.url}}"/>
+{%endif%}
+  <h1>{{user.username}}'s Profile</h1>
+  <strong>Bio: {{profile.bio}}</strong><br/>
+  <strong>First name :{{user.first_name}}</strong><br/>
+  <strong>Last name :{{user.last_name}}</strong><br/>
+  <strong>Date Joined :{{user.date_joined}}</strong><br/>
+  <strong>Movies subscribed to</strong><br/>
+  {% for movie in user.subscribed_movies.all %}
+  <a href = "{% url 'movie' movie.id %}">
+  {{movie}}
+</a>
+  <br/>
+  {% endfor %}
+  <br/><br/>
+  <a href="{%url 'update_profile' user.id %}" class="btn btn-primary">Edit Profile</a>
+{% endif %}
+
+{% endblock %}

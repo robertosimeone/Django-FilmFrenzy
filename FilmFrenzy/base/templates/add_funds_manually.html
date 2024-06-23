@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class = "container text-center">
+    <div class = "row">
+        <div class="col-8">
+            <h1>Previous checkouts by {{user.username}}</h1>
+            <div style="position: absolute; top: 0.25cm; right: 0;">
+                <span style="background-color: gray; padding: 0.25rem; border-radius: 0.25rem;">{{user.token}}</span>
+              </div>
+              <div style="position: absolute; top: 0.25cm; right: 2cm;">
+                <span style="background-color: gray; padding: 0.25rem; border-radius: 0.25rem;">{{user.username}}</span>
+              </div>    
+            <br/>
+            {% if orders %}
+            {% for order in orders %}
+            <div class="alert alert-dark" role="alert">
+                {{user.username}} ({{order.created_at }}) : {{order.order_value}}
+              </div>
+            <br/><br/>
+            {%endfor%}
+        {%endif%}
+        </div>
+            
+            <div class="col-4">
+                {%if form%}
+                <form method = POST>
+                    {%csrf_token%}
+                    {{form.as_p}}
+                   
+                    <button type="submit" class="btn btn-secondary">Add funds</button>
+                  </form>
+                <br/><br/><br/>
+                {%endif%}
+            </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<img src="{{movie.my_image}}"/>
+<br/><br/>
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+      About
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Title: {{movie.name}}</li>
+      <li class="list-group-item">Price: {{movie.price}}</li>
+      <li class="list-group-item">Duration(mins): {{movie.duration}}</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      Description: {{movie.description}}
+    </div>
+  </div>
+  <br/><br/>
+  <br/><br/>
+{% if user.is_authenticated %}
+    <form method = POST>
+        {% csrf_token %}
+    {% if movie in user.subscribed_movies.all %}
+        <button class = "btn btn-outline-danger" name = "subscribe" value = "unsubscribe" type ="submit">
+            Unsubscribe from {{movie.name}}</button>
+    {% else %}
+    <button class = "btn btn-outline-success" name = "subscribe" value = "subscribe" type ="submit">
+        Subscribe to {{movie.name}}</button>
+    {% endif %}   
+</form>
+    <br/>
+    {% if messages %}
+        {% for message in messages%}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+      {% endif  %}
+    </div>
+    <div style="position: absolute; top: 0.25cm; right: 0;">
+        <span style="background-color: gray; padding: 0.25rem; border-radius: 0.25rem;">{{user.token}}</span>
+      </div>
+      <div style="position: absolute; top: 0.25cm; right: 2cm;">
+        <span style="background-color: gray; padding: 0.25rem; border-radius: 0.25rem;">{{user.username}}</span>
+      </div>
+    </div>
+    </div>
+    {%endif%}
+
+    <div class = "container text-center">
+        <div class = "row">
+            <div class="col-8">
+                <h1>Comments</h1>
+                <br/>
+                {% if comments%}
+                {% for comment in comments%}
+                <div class="alert alert-dark" role="alert">
+                    {{comment}}
+                  </div>
+                <br/><br/>
+                {%endfor%}
+            {%endif%}
+            </div>
+                
+                <div class="col-4">
+                    {%if form%}
+                    <form method = POST>
+                        {%csrf_token%}
+                        {{form.as_p}}
+                        <!-- <div class="mb-3">
+                          <label for="exampleInputEmail1" class="form-label">Email address</label>
+                          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleInputPassword1" class="form-label">Password</label>
+                          <input type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3 form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div> -->
+                        <button type="submit" class="btn btn-secondary">Comment</button>
+                      </form>
+                    <br/><br/><br/>
+                    {%endif%}
+                </div>
+        </div>
+    </div>
+            
+
+
+{% endblock %}

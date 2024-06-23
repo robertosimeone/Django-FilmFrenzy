@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1> MovieList</h1>
+    <br/>
+{% if movies %}
+    {% for movie in movies %}
+            <div class="card" style="width: 18rem;">
+            <img src='{{movie.my_image}}' class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{ movie.name}}</h5>
+            <p class="card-text">{{ movie.price }}</p>
+            <a href="{%url 'movie' movie.id %}" class="btn btn-primary">View Movie</a>
+        </div>
+        </div>
+        
+<br/><br/>
+    {% endfor %}
+{% endif %}
+{% endblock %}
